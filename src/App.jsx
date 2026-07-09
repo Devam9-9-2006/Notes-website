@@ -22,7 +22,7 @@ function App() {
     setNotes((prev) => [...prev, note]);
   };
 
-  // Toggle Favorite
+  // Favorite
   const toggleFavorite = (id) => {
     setNotes((prev) =>
       prev.map((note) =>
@@ -33,7 +33,7 @@ function App() {
     );
   };
 
-  // Move to Archive
+  // Archive
   const moveToArchive = (id) => {
     setNotes((prev) =>
       prev.map((note) =>
@@ -49,7 +49,7 @@ function App() {
     );
   };
 
-  // Move to Trash
+  // Trash
   const moveToTrash = (id) => {
     setNotes((prev) =>
       prev.map((note) =>
@@ -57,7 +57,7 @@ function App() {
           ? {
               ...note,
               trash: true,
-              archive: false,
+             archive: false,
               favorite: false,
             }
           : note
@@ -65,7 +65,7 @@ function App() {
     );
   };
 
-  // Restore Note
+  // Restore
   const restoreNote = (id) => {
     setNotes((prev) =>
       prev.map((note) =>
@@ -88,6 +88,20 @@ function App() {
     );
   };
 
+  // 🎨 Change Note Color
+  const changeColor = (id, color) => {
+    setNotes((prev) =>
+      prev.map((note) =>
+        note.id === id
+          ? {
+              ...note,
+              color,
+            }
+          : note
+      )
+    );
+  };
+
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-[#202124]">
@@ -104,9 +118,7 @@ function App() {
                 notes={notes}
                 addNote={addNote}
                 setNotes={setNotes}
-                toggleFavorite={toggleFavorite}
-                moveToArchive={moveToArchive}
-                moveToTrash={moveToTrash}
+                changeColor={changeColor}
               />
             }
           />
@@ -118,9 +130,7 @@ function App() {
               <Favorite
                 notes={notes}
                 setNotes={setNotes}
-                toggleFavorite={toggleFavorite}
-                moveToArchive={moveToArchive}
-                moveToTrash={moveToTrash}
+                changeColor={changeColor}
               />
             }
           />
@@ -134,7 +144,7 @@ function App() {
                 setNotes={setNotes}
                 restoreNote={restoreNote}
                 moveToTrash={moveToTrash}
-                toggleFavorite={toggleFavorite}
+                changeColor={changeColor}
               />
             }
           />
@@ -148,6 +158,7 @@ function App() {
                 setNotes={setNotes}
                 restoreNote={restoreNote}
                 deleteForever={deleteForever}
+                changeColor={changeColor}
               />
             }
           />
@@ -156,7 +167,7 @@ function App() {
           <Route
             path="/settings"
             element={
-              <div className="flex items-center justify-center h-[80vh]">
+              <div className="flex justify-center items-center h-[80vh]">
                 <h1 className="text-4xl font-bold text-white">
                   ⚙️ Settings
                 </h1>

@@ -1,9 +1,23 @@
+import { useState } from "react";
 import {
   Star,
   Archive,
   Trash2,
   Pencil,
+  Palette,
 } from "lucide-react";
+
+const colors = [
+  "#2b2c2f",
+  "#f28b82",
+  "#fbbc04",
+  "#fff475",
+  "#ccff90",
+  "#a7ffeb",
+  "#cbf0f8",
+  "#aecbfa",
+  "#d7aefb",
+];
 
 function NoteCard({
   note,
@@ -11,17 +25,22 @@ function NoteCard({
   deleteNote,
   favoriteNote,
   archiveNote,
+  changeColor,
 }) {
-  return (
-    <div className="bg-[#2b2c2f] border border-gray-700 rounded-xl p-5 hover:shadow-lg transition">
+  const [showPalette, setShowPalette] = useState(false);
 
+  return (
+    <div
+      style={{ backgroundColor: note.color }}
+      className="relative border border-gray-700 rounded-xl p-5 transition-all duration-300"
+    >
       {/* Title */}
       <h2 className="text-xl font-bold text-white">
         {note.title}
       </h2>
 
-      {/* Description */}
-      <p className="mt-3 text-gray-300">
+      {/* Note */}
+      <p className="mt-3 text-gray-200">
         {note.note}
       </p>
 
@@ -48,8 +67,8 @@ function NoteCard({
 
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex justify-between mt-6">
+      {/* Buttons */}
+      <div className="flex justify-between items-center mt-6">
 
         <button
           onClick={() => editNote(note.id)}
@@ -79,8 +98,38 @@ function NoteCard({
           <Trash2 size={18} />
         </button>
 
+        {/* Palette */}
+        <button
+          onClick={() => setShowPalette(!showPalette)}
+          className="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white"
+        >
+          <Palette size={18} />
+        </button>
+
       </div>
 
+      {/* Color Picker */}
+      {showPalette && (
+        <div className="absolute bottom-16 right-4 bg-[#202124] border border-gray-600 rounded-xl p-3 shadow-xl">
+
+          <div className="grid grid-cols-3 gap-2">
+
+            {colors.map((color) => (
+              <button
+                key={color}
+                onClick={() => {
+                  changeColor(note.id, color);
+                  setShowPalette(false);
+                }}
+                className="w-8 h-8 rounded-full border-2 border-white"
+                style={{ backgroundColor: color }}
+              />
+            ))}
+
+          </div>
+
+        </div>
+      )}
     </div>
   );
 }
